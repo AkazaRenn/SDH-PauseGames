@@ -5,7 +5,7 @@ from typing import Any
 # The decky plugin module is located at decky-loader/plugin
 # For easy intellisense checkout the decky-loader code one directory up
 # or add the `decky-loader/plugin` path to `python.analysis.extraPaths` in `.vscode/settings.json`
-import decky_plugin
+import decky
 from settings import SettingsManager
 
 def get_all_children(pid: int) -> list[str]:
@@ -28,14 +28,20 @@ def get_all_children(pid: int) -> list[str]:
         return pids
 
 class Plugin:
+    def __init__(self):
+        self.settings = SettingsManager(name="settings", settings_directory=decky.DECKY_PLUGIN_SETTINGS_DIR)
+        self.settings.read()
+
     # Asyncio-compatible long-running code, executed in a task when the plugin is loaded
     async def _main(self):
-        self.settings = SettingsManager(name="settings", settings_directory=decky_plugin.DECKY_PLUGIN_SETTINGS_DIR)
-        self.settings.read()
+        pass
 
     # Function called first during the unload process, utilize this to handle your plugin being removed
     async def _unload(self):
         pass
+
+    async def start_timer(self):
+        self.loop.create_task(self.long_running())
 
     # Migrations that should be performed before entering `_main()`.
     async def _migration(self):
@@ -59,7 +65,6 @@ class Plugin:
                 return False
         else:
             return False
-
 
     async def resume(self, pid: int) -> bool:
         pids = get_all_children(pid)
@@ -136,7 +141,8 @@ class Plugin:
         return 0
 
     async def load_settings(self) -> dict[str, Any]:
-        return self.settings.settings
+        # return self.settings.settings
+        return {"pauseBeforeSuspend": True, "autoPause": True, "overlayPause": True, "noAutoPauseSet": [367520]}
 
     async def save_setting(self, key: str, value: Any) -> None:
         self.settings.setSetting(key, value)
@@ -150,6 +156,3 @@ class Plugin:
         curr = set(self.settings.getSetting("noAutoPauseSet", []))
         curr.discard(appid)
         self.settings.setSetting("noAutoPauseSet", list(curr))
-
-    async def in_no_auto_pause_set(self, appid: int) -> bool:
-        return appid in self.settings.getSetting("noAutoPauseSet", [])
