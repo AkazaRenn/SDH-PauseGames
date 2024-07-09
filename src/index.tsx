@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { FaStream, FaPlay, FaPause, FaMoon } from "react-icons/fa";
 
 import * as backend from "./backend";
-import { pause, resume } from "./interop"
+import { pause, resume } from "./interop";
 import { Settings } from "./settings";
 
 function AppItem({app}: {app: backend.AppOverviewExt}) {
