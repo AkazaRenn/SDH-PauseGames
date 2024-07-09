@@ -38,7 +38,7 @@ type SettingStruct = {
             } else {
               Settings.data[key] = data[key];
             }
-          } catch (e) {}
+          } catch (e) { console.log(e); }
         }
       }
 
