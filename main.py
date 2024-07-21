@@ -153,6 +153,3 @@ class Plugin:
         curr = set(self.settings.getSetting("noAutoPauseSet", []))
         curr.discard(appid)
         self.settings.setSetting("noAutoPauseSet", list(curr))
-
-    async def in_no_auto_pause_set(self, appid: int) -> bool:
-        return appid in self.settings.getSetting("noAutoPauseSet", [])
