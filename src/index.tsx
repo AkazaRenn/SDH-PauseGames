@@ -1,6 +1,5 @@
 import {
   beforePatch,
-  staticClasses,
   Button,
   Field,
   Focusable,
@@ -261,7 +260,7 @@ export default definePlugin(() => {
   const unregisterSuspendResumeHandler = backend.setupSuspendResumeHandler();
 
   return {
-    title: <div className={staticClasses.Title}>Pause Games</div>,
+    name: "Pause Games",
     content: <Content />,
     icon: <FaPause />,
     onDismount() {
