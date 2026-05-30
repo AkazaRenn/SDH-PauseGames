@@ -84,7 +84,7 @@ function AppItem({app, autoPause}: {app: backend.AppOverviewExt, autoPause: bool
     <Field
       spacingBetweenLabelAndChild="none"
       childrenLayout="inline"
-      childrenContainerWidth="fixed">
+      childrenContainerWidth="max">
     <Focusable
       style={{
         display: "flex",
