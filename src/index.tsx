@@ -121,6 +121,7 @@ function AppItem({app, autoPause}: {app: backend.AppOverviewExt, autoPause: bool
       <div
         style={{
           minWidth: "0",
+          width: "0",
           flex: "1 1 0",
           paddingRight: "8px",}}>
         <Marquee style={{
