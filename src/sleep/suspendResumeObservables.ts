@@ -33,7 +33,7 @@ declare global {
   let SuspendResumeStore: SuspendResumeStoreType;
 }
 
-export function getSuspendObservable() {
+export function getSuspendResumeObservable() {
   const suspendingMobXObservable = getMobxObservable(
     SuspendResumeStore,
     "m_bSuspending",
@@ -41,6 +41,8 @@ export function getSuspendObservable() {
   return suspendingMobXObservable;
 }
 
+// m_bResuming seems to be removed on July 22 2026 Steam Client Stable Update.
+/*
 export function getResumeObservable() {
   const resumingMobXObservable = getMobxObservable(
     SuspendResumeStore,
@@ -49,3 +51,4 @@ export function getResumeObservable() {
 
   return resumingMobXObservable;
 }
+*/

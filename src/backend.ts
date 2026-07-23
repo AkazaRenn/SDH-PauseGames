@@ -13,8 +13,8 @@ import {
 } from "./interop";
 import { Settings } from "./settings";
 import {
-  getResumeObservable,
-  getSuspendObservable,
+  //getResumeObservable,
+  getSuspendResumeObservable,
 } from "./sleep/suspendResumeObservables";
 
 // only the needed subset of the SteamClient
@@ -281,24 +281,27 @@ export function setupSuspendResumeHandler(): () => void {
   // const { unregister: unregisterOnResumeFromSuspend } =
   //   SteamClient.System.RegisterForOnResumeFromSuspend(onResume);
 
-  const suspendObservable = getSuspendObservable();
-  const resumeObservable = getResumeObservable();
+  const suspendresumeObservable = getSuspendResumeObservable();
+  //const resumeObservable = getResumeObservable();
 
-  const unregisterOnSuspendRequest = suspendObservable?.observe_((change) => {
+  // Note: If newValue is TRUE then it's suspending, otherwise it's resuming.
+  const unregisterOnSuspendRequest = suspendresumeObservable?.observe_((change) => {
     const { newValue } = change;
-    console.log({ info: `mobX suspend triggered with ${newValue}` });
+    console.log({ info: `PG-Suspending: mobX suspend triggered with ${newValue}` });
     if (!newValue) {
       return;
     }
+    console.log({ info: `PG: Suspending Games (If toggle is enabled)...` });
     onSuspend();
   });
 
-  const unregisterOnResumeFromSuspend = resumeObservable?.observe_((change) => {
+  const unregisterOnResumeFromSuspend = suspendresumeObservable?.observe_((change) => {
     const { newValue } = change;
-    console.log({ info: `mobX resume triggered with ${newValue}` });
-    if (!newValue) {
+    console.log({ info: `PG-Resuming: mobX suspend triggered with ${newValue}` });
+    if (newValue) {
       return;
     }
+    console.log({ info: `PG: Resuming Games (If toggle is enabled)...` });
     onResume();
   });
 
