@@ -299,7 +299,7 @@ export function setupSuspendResumeHandler(): () => void {
     const { newValue } = change;
     console.log({ info: `change value ${change}` });
     console.log({ info: `mobX resume triggered with ${newValue}` });
-    if (!newValue) {
+    if (newValue) {
       return;
     }
     console.log({ info: `PG: Resuming Games...` });
