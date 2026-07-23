@@ -287,7 +287,7 @@ export function setupSuspendResumeHandler(): () => void {
   const unregisterOnSuspendRequest = suspendObservable?.observe_((change) => {
     const { newValue } = change;
     console.log({ info: `change value ${change}` });
-    console.log({ info: `mobX suspend triggered with ${newValue}` });
+    console.log({ info: `PG-Suspending: mobX suspend triggered with ${newValue}` });
     if (!newValue) {
       return;
     }
@@ -295,10 +295,10 @@ export function setupSuspendResumeHandler(): () => void {
     onSuspend();
   });
 
-  const unregisterOnResumeFromSuspend = resumeObservable?.observe_((change) => {
+  const unregisterOnResumeFromSuspend = suspendObservable?.observe_((change) => {
     const { newValue } = change;
     console.log({ info: `change value ${change}` });
-    console.log({ info: `mobX resume triggered with ${newValue}` });
+    console.log({ info: `PG-Resuming: mobX suspend triggered with ${newValue}` });
     if (newValue) {
       return;
     }
