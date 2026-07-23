@@ -286,19 +286,23 @@ export function setupSuspendResumeHandler(): () => void {
 
   const unregisterOnSuspendRequest = suspendObservable?.observe_((change) => {
     const { newValue } = change;
+    console.log({ info: `change value ${change}` });
     console.log({ info: `mobX suspend triggered with ${newValue}` });
     if (!newValue) {
       return;
     }
+    console.log({ info: `PG: Suspending Games...` });
     onSuspend();
   });
 
   const unregisterOnResumeFromSuspend = resumeObservable?.observe_((change) => {
     const { newValue } = change;
+    console.log({ info: `change value ${change}` });
     console.log({ info: `mobX resume triggered with ${newValue}` });
     if (!newValue) {
       return;
     }
+    console.log({ info: `PG: Resuming Games...` });
     onResume();
   });
 
